@@ -503,18 +503,18 @@ app.post('/api/invest', async (req, res) => {
 
     const money = (() => {
       switch (req.body.percent) {
-        case '5%':
-          return (req.body.amount * 5) / 100
-        case '15%':
-          return (req.body.amount * 15) / 100
         case '20%':
           return (req.body.amount * 20) / 100
-        case '25%':
-          return (req.body.amount * 25) / 100
-        case '30%':
-          return (req.body.amount * 30) / 100
-        case '35%':
-          return (req.body.amount * 35) / 100
+        case '40%':
+          return (req.body.amount * 40) / 100
+        case '60%':
+          return (req.body.amount * 60) / 100
+        case '80%':
+          return (req.body.amount * 80) / 100
+        case '100%':
+          return (req.body.amount * 100) / 100
+        case '100%':
+          return (req.body.amount * 100) / 100
       }
     })()
     if (user.capital >= req.body.amount) {
@@ -569,12 +569,12 @@ const change = (users, now) => {
      
     user.investment.map(async (invest) => {
       if (isNaN(invest.started)) {
-        console.log('investment is no a number')
-        res.json({message:'investment is no a number'})
+        console.log('investment is not a number')
+        res.json({message:'investment is not a number'})
         return
       }
       if (user.investment == []) {
-        console.log('investment is not empty array')
+        console.log('investment is an empty array')
         res.json({message:'investment is an empty array'})
         return
       }
