@@ -65,7 +65,7 @@ app.post(
         // Update referring user's referral info
 
         await User.updateOne(
-          { username: referralLink },
+          { username: referralLink },{refBonus: referringUser.refBonus + 500},
           {
             $push: {
               referred: {
@@ -455,13 +455,13 @@ app.post('/api/login', async (req, res) => {
     // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ status: 'error', message: 'User does not exist' });
+      return res.json({ status: 404, message: 'User does not exist' });
     }
 
     // Verify password
     // const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (password !== user.password) {
-      return res.status(401).json({ status: 'error', message: 'Incorrect password' });
+    if (password != user.password) {
+      return res.json({ status: 401, message: 'Incorrect password' });
     }
 
     // Generate JWT token with user ID and email
@@ -483,7 +483,7 @@ app.post('/api/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Error during login:', error);
-    return res.status(500).json({ status: 'error', message: 'Internal server error' });
+    return res.json({ status: 'error', message: 'Internal server error' });
   }
 });
 
@@ -640,9 +640,7 @@ const change = (users, now) => {
           console.log('investment increased by 4.5%')
         } catch (error) {
           console.log(error)
-        }
-          
-        }
+        }}
  })
 })
 } 
@@ -658,12 +656,6 @@ app.get('/api/cron', async (req, res) => {
   }
 })
 
-// setInterval(async () => {
-//   // mongoose.connect(process.env.ATLAS_URI)
-//   const users = (await User.find()) ?? []
-//   const now = new Date().getTime()
-//   change(users, now)
-// }, 10000)
 
 app.post('/api/getWithdrawInfo', async (req, res) => {
   try {
